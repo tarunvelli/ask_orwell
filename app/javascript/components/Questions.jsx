@@ -41,7 +41,7 @@ const Questions = () => {
 
   return (
     <>
-      <section className="jumbotron jumbotron-fluid text-center">
+      <section className="text-center">
         <div className="container py-5">
           <h1 className="display-4">Questions</h1>
           <p className="lead text-muted">

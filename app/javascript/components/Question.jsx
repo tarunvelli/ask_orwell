@@ -1,17 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const Question = () => {
   const params = useParams();
   const navigate = useNavigate();
+
+  const luckyPrompts = [
+    "What happened to snowball?",
+    "Was the windmill built?",
+    "Did the farm prosper?",
+    "What do the pigs represent?",
+  ];
+
+  const promptBox = useRef(null);
   const [question, setQuestion] = useState({
     ask_count: 0,
     prompt: "What happened to boxer?",
     answer: "",
   });
 
-  const changePrompt = (event) => {
-    setQuestion({ prompt: event.target.value });
+  const changePrompt = (prompt) => {
+    setQuestion({ prompt: prompt });
   };
 
   useEffect(() => {
@@ -31,6 +40,7 @@ const Question = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+
     const url = "/api/v1/questions";
 
     if (question.prompt.length == 0) return;
@@ -64,6 +74,11 @@ const Question = () => {
       .catch((error) => console.log(error.message));
   };
 
+  const randomPrompt = () => {
+    randomIndex = Math.floor(Math.random() * luckyPrompts.length);
+    return luckyPrompts[randomIndex];
+  };
+
   const promptAnswer = () => {
     let promptAnswer = "No answer available";
 
@@ -79,44 +94,58 @@ const Question = () => {
   };
 
   return (
-    <div className="vw-100 vh-100 primary-color d-flex align-items-center justify-content-center">
-      <div className="jumbotron jumbotron-fluid bg-transparent">
-        <div className="container secondary-color">
-          <h1 className="display-4">Ask Orwell!</h1>
-          <p className="lead">
-            This is an experiment in using AI to make Animal farm's content more
-            accessible.
-          </p>
-          <form onSubmit={onSubmit}>
-            <div className="form-group mt-3">
-              <label className="mb-3" htmlFor="questionPrompt">
-                Question prompt
-              </label>
-              <input
-                type="textarea"
-                name="prompt"
-                id="questionPrompt"
-                className="form-control"
-                value={question.prompt}
-                required
-                onChange={(event) => changePrompt(event)}
-              />
-            </div>
-            <div className="form-group mt-3">
-              {isAnswered() && `Answer: ${promptAnswer()}`}
-            </div>
-            {!isAnswered() && (
+    <section className="text-center">
+      <div className="container py-5">
+        <h1 className="display-4">Ask Orwell!</h1>
+        <p className="lead text-muted">
+          This is an experiment in using AI to make Animal farm's content more
+          accessible.
+          <br />
+          To view frequently asked questions{" "}
+          <Link to="/questions">click here!</Link>
+        </p>
+      </div>
+      <div className="container py-5 w-50">
+        <form onSubmit={onSubmit}>
+          <div className="form-group">
+            <input
+              type="textarea"
+              name="prompt"
+              id="questionPrompt"
+              className="form-control"
+              value={question.prompt}
+              ref={promptBox}
+              required
+              onChange={(event) => changePrompt(event.target.value)}
+            />
+          </div>
+          <div className="form-group mt-3">
+            {isAnswered() && `Answer: ${promptAnswer()}`}
+          </div>
+          {isAnswered() ? (
+            <button
+              className="btn btn-dark mt-3 me-3"
+              onClick={() => changePrompt(question.prompt) && promptBox.current.focus()}
+            >
+              Ask another
+            </button>
+          ) : (
+            <>
               <button type="submit" className="btn btn-dark mt-3 me-3">
                 Ask
               </button>
-            )}
-            <Link to="/questions" className="btn btn-dark mt-3 me-3">
-              Frequently asked
-            </Link>
-          </form>
-        </div>
+              <button
+                type="submit"
+                className="btn btn-secondary mt-3 me-3"
+                onClick={() => changePrompt(randomPrompt())}
+              >
+                I'm feeling lucky
+              </button>
+            </>
+          )}
+        </form>
       </div>
-    </div>
+    </section>
   );
 };
 
