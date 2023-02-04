@@ -51,7 +51,7 @@ const Questions = () => {
       <div className="py-5">
         <main className="container">
           <div className="text-end mb-3">
-            <Link to="/question" className="btn custom-button">
+            <Link to="/question" className="btn btn-dark">
               Create New Question
             </Link>
           </div>
