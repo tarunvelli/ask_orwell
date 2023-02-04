@@ -22,7 +22,7 @@ const Question = () => {
   const promptAnswer = () => {
     let promptAnswer = "No answer available";
 
-    if (question.answer.length > 0) {
+    if (question.answer?.length > 0) {
       promptAnswer = question.answer;
     }
 
@@ -32,7 +32,7 @@ const Question = () => {
   const promptContext = () => {
     let promptContext = "No context available";
 
-    if (question.context.length > 0) {
+    if (question.context?.length > 0) {
       promptContext = question.context;
     }
 
@@ -52,10 +52,16 @@ const Question = () => {
           <div className="col-sm-12 col-lg-3">
             <ul className="list-group">
               <h5 className="mb-2">Answer</h5>
+              {question.prompt}
+            </ul>
+          </div>
+          <div className="col-sm-12 col-lg-3">
+            <ul className="list-group">
+              <h5 className="mb-2">Answer</h5>
               {promptAnswer()}
             </ul>
           </div>
-          <div className="col-sm-12 col-lg-7">
+          <div className="col-sm-12 col-lg-4">
             <h5 className="mb-2">Context</h5>
             <div>{promptContext()}</div>
           </div>
