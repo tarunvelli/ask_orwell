@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 const NewQuestion = () => {
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
-  const [context, setContext] = useState("");
 
   const onChange = (event, setFunction) => {
     setFunction(event.target.value);
@@ -14,11 +13,10 @@ const NewQuestion = () => {
     event.preventDefault();
     const url = "/api/v1/questions";
 
-    if (prompt.length == 0 || context.length == 0) return;
+    if (prompt.length == 0) return;
 
     const body = {
-      prompt,
-      context,
+      prompt
     };
 
     const token = document.querySelector('meta[name="csrf-token"]').content;
@@ -41,40 +39,28 @@ const NewQuestion = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-sm-12 col-lg-6 offset-lg-3">
-          <h1 className="font-weight-normal mb-5">
-            New question
-          </h1>
+    <div className="vw-100 vh-100 primary-color d-flex align-items-center justify-content-center">
+      <div className="jumbotron jumbotron-fluid bg-transparent">
+        <div className="container secondary-color">
+          <h1 className="display-4">Ask Orwell!</h1>
+          <p className="lead">This is an experiment in using AI to make Animal farm's content more accessible.</p>
           <form onSubmit={onSubmit}>
             <div className="form-group mt-3">
-              <label className="mb-3" htmlFor="questionPrompt">Question prompt</label>
               <input
-                type="text"
+                type="textarea"
                 name="prompt"
                 id="questionPrompt"
                 className="form-control"
+                defaultValue={'What happened to boxer?'}
                 required
                 onChange={(event) => onChange(event, setPrompt)}
               />
             </div>
-            <div className="form-group mt-3">
-              <label className="mb-3" htmlFor="questionContext">Context</label>
-              <textarea
-                className="form-control"
-                id="questionContext"
-                name="context"
-                rows="5"
-                required
-                onChange={(event) => onChange(event, setContext)}
-              />
-            </div>
-            <button type="submit" className="btn btn-dark mt-3">
-              Create Question
+            <button type="submit" className="btn btn-dark mt-3 me-3">
+              Ask
             </button>
-            <Link to="/questions" className="btn btn-link mt-3">
-              Back to questions
+            <Link to="/questions" className="btn btn-dark mt-3 me-3">
+              Frequently asked
             </Link>
           </form>
         </div>

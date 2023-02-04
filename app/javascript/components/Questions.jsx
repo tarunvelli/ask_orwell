@@ -30,6 +30,7 @@ const Questions = () => {
       </div>
     </div>
   ));
+
   const noQuestion = (
     <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
       <h4>
@@ -45,22 +46,16 @@ const Questions = () => {
           <h1 className="display-4">Questions</h1>
           <p className="lead text-muted">
             We’ve pulled together our most popular questions
+            <br/>
+            Not answered here? Why not <Link to="/question">ask a new question!</Link>
           </p>
         </div>
       </section>
       <div className="py-5">
         <main className="container">
-          <div className="text-end mb-3">
-            <Link to="/question" className="btn btn-dark">
-              Create New Question
-            </Link>
-          </div>
           <div className="row">
             {questions.length > 0 ? allQuestions : noQuestion}
           </div>
-          <Link to="/" className="btn btn-link">
-            Home
-          </Link>
         </main>
       </div>
     </>

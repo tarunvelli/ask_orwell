@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 const Question = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const [question, setQuestion] = useState({ answer: "", context: "" });
+  const [question, setQuestion] = useState({ prompt: "", answer: "" });
 
   useEffect(() => {
     const url = `/api/v1/questions/${params.id}`;
@@ -29,51 +29,38 @@ const Question = () => {
     return promptAnswer;
   };
 
-  const promptContext = () => {
-    let promptContext = "No context available";
-
-    if (question.context?.length > 0) {
-      promptContext = question.context;
-    }
-
-    return promptContext;
-  };
-
   return (
-    <div className="">
-      <div className="hero position-relative d-flex align-items-center justify-content-center">
-        <div className="overlay bg-dark position-absolute" />
-        <h1 className="display-4 position-relative text-white">
-          {question.prompt}
-        </h1>
-      </div>
-      <div className="container py-5">
-        <div className="row">
-          <div className="col-sm-12 col-lg-3">
-            <ul className="list-group">
-              <h5 className="mb-2">Answer</h5>
-              {question.prompt}
-            </ul>
-          </div>
-          <div className="col-sm-12 col-lg-3">
-            <ul className="list-group">
-              <h5 className="mb-2">Answer</h5>
-              {promptAnswer()}
-            </ul>
-          </div>
-          <div className="col-sm-12 col-lg-4">
-            <h5 className="mb-2">Context</h5>
-            <div>{promptContext()}</div>
-          </div>
-          <div className="col-sm-12 col-lg-2">
-            <button type="button" className="btn btn-danger">
-              Delete Question
+    <div className="vw-100 vh-100 primary-color d-flex align-items-center justify-content-center">
+      <div className="jumbotron jumbotron-fluid bg-transparent">
+        <div className="container secondary-color">
+          <h1 className="display-4">Ask Orwell!</h1>
+          <p className="lead">This is an experiment in using AI to make Animal farm's content more accessible.</p>
+          <form >
+            <div className="form-group mt-3">
+              <label className="mb-3" htmlFor="questionPrompt">
+                Question prompt
+              </label>
+              <input
+                type="textarea"
+                name="prompt"
+                id="questionPrompt"
+                className="form-control"
+                defaultValue={question.prompt}
+                required
+                onChange={(event) => onChange(event, setPrompt)}
+              />
+            </div>
+            <div className="form-group mt-3">
+              Answer: {promptAnswer()}
+            </div>
+            <button type="submit" className="btn btn-dark mt-3 me-3">
+              Ask Again
             </button>
-          </div>
+            <Link to="/questions" className="btn btn-dark mt-3 me-3">
+              Frequently asked
+            </Link>
+          </form>
         </div>
-        <Link to="/questions" className="btn btn-link">
-          Back to questions
-        </Link>
       </div>
     </div>
   );

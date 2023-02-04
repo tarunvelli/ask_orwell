@@ -2,7 +2,7 @@ class Api::V1::QuestionsController < ApplicationController
   before_action :set_question, only: %i[show destroy]
 
   def index
-    question = Question.all.order(created_at: :desc)
+    question = Question.order(ask_count: :desc).limit(9)
     render json: question
   end
 
