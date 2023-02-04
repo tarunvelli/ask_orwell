@@ -7,7 +7,7 @@ class Api::V1::QuestionsController < ApplicationController
   end
 
   def create
-    question = Question.create!(question_params)
+    question = Question.find_or_create_by!(question_params)
     if question
       render json: question
     else
