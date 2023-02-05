@@ -1,24 +1,51 @@
-# README
+# System dependencies
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+verified on the following setup
 
-Things you may want to cover:
+- Ruby 3.1.3
+- Node v16.14.0
+- Yarn 1.22.19
+- PostgreSQL 12.9
 
-* Ruby version
+requires postgres to run on local
 
-* System dependencies
+```
+brew install postgresql@12
+```
 
-* Configuration
+# Setup
 
-* Database creation
+1. Clone the repo
 
-* Database initialization
+```
+git clone git@github.com:tarunvelli/ask_orwell.git
+```
 
-* How to run the test suite
+2. Make sure you have installed the required dependencies
 
-* Services (job queues, cache servers, search engines, etc.)
+3. Setup app
 
-* Deployment instructions
+```
+bin/setup
+```
 
-* ...
+4. Add `OPENAI_API_KEY` to .env
+
+5. Add `book.pdf` in `lib/assets`
+
+6. Generate embeddings
+
+```
+bundle exec rake generate_page_embeddings["book.pdf"]
+```
+Note: If you're using zsh, add backslash before brackets
+```
+bundle exec rake generate_page_embeddings\["book.pdf"\]
+```
+
+7. Start app
+```
+bin/dev
+```
+
+

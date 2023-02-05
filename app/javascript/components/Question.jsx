@@ -6,17 +6,16 @@ const Question = () => {
   const navigate = useNavigate();
 
   const luckyPrompts = [
-    "What happened to snowball?",
-    "Was the windmill built?",
-    "Did the farm prosper?",
-    "What do the pigs represent?",
+    "What is a minimalist entrepreneur?",
+    "What is your definition of community?",
+    "How do I decide what kind of business I should start?",
   ];
 
   const [loading, setLoading] = useState(false);
   const promptBox = useRef(null);
   const [question, setQuestion] = useState({
     ask_count: 0,
-    prompt: "What happened to boxer?",
+    prompt: 'What is The Minimalist Entrepreneur about?',
     answer: "",
   });
 
@@ -101,9 +100,9 @@ const Question = () => {
   return (
     <section className="text-center">
       <div className="container py-5">
-        <h1 className="display-4">Ask Orwell!</h1>
+        <h1 className="display-4">Ask My Book!</h1>
         <p className="lead text-muted">
-          This is an experiment in using AI to make <a href='https://en.wikipedia.org/wiki/Animal_Farm' target='_blank'>Animal farm's</a> content more
+          This is an experiment in using AI to make <a href="https://www.amazon.com/Minimalist-Entrepreneur-Great-Founders-More/dp/0593192397" target="_blank">The Minimalist Entrepreneur's</a> content more
           accessible.
           <br />
           To view frequently asked questions{" "}
