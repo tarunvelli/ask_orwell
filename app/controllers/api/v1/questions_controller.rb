@@ -1,5 +1,6 @@
 class Api::V1::QuestionsController < ApplicationController
-  before_action :set_question, only: %i[show destroy]
+  before_action :set_question_by_id, only: %i[show destroy]
+  before_action :set_question_by_prompt, only: %i[create]
 
   def index
     question = Question.order(ask_count: :desc).limit(9)
@@ -7,11 +8,10 @@ class Api::V1::QuestionsController < ApplicationController
   end
 
   def create
-    question = Question.find_or_create_by!(question_params)
-    if question
-      render json: question
+    if @question
+      render json: @question
     else
-      render json: question.errors
+      render json: @question.errors
     end
   end
 
@@ -27,10 +27,16 @@ class Api::V1::QuestionsController < ApplicationController
   private
 
   def question_params
-    params.permit(:prompt)
+    params.require(:question).permit(:prompt)
   end
 
-  def set_question
+  def set_question_by_id
     @question = Question.find(params[:id])
+  end
+
+  def set_question_by_prompt
+    @question = Question.find_or_create_by!(question_params)
+    ask_count = @question.ask_count + 1
+    @question.update(ask_count: ask_count)
   end
 end
