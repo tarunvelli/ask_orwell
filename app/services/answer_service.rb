@@ -67,6 +67,6 @@ class AnswerService
   end
 
   def query_embedding
-    @query_embedding ||= openai.embeddings(prompt)
+    @query_embedding ||= openai.query_embeddings(prompt)
   end
 end

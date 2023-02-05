@@ -33,5 +33,7 @@ module AskOrwell
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.eager_load_paths.push("#{config.root}/lib")
   end
 end

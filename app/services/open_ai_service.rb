@@ -3,7 +3,9 @@
 class OpenAiService
   attr_reader :client
 
-  QUERY_EMBEDDINGS_MODEL = 'text-search-curie-query-001'
+  MODEL_NAME = 'curie'
+  QUERY_EMBEDDINGS_MODEL = "text-search-#{MODEL_NAME}-query-001".freeze
+  DOC_EMBEDDINGS_MODEL = "text-search-#{MODEL_NAME}-doc-001".freeze
   COMPLETIONS_MODEL = 'text-davinci-003'
 
   def initialize
@@ -23,11 +25,22 @@ class OpenAiService
     result.dig('choices', 0, 'text')&.strip
   end
 
-  def embeddings(prompt)
+  def query_embeddings(prompt)
     result = client.embeddings(
       parameters: {
         input: prompt,
         model: QUERY_EMBEDDINGS_MODEL
+      }
+    )
+
+    result.dig('data', 0, 'embedding')
+  end
+
+  def doc_embeddings(prompt)
+    result = client.embeddings(
+      parameters: {
+        input: prompt,
+        model: DOC_EMBEDDINGS_MODEL
       }
     )
 
