@@ -12,6 +12,7 @@ const Question = () => {
     "What do the pigs represent?",
   ];
 
+  const [loading, setLoading] = useState(false);
   const promptBox = useRef(null);
   const [question, setQuestion] = useState({
     ask_count: 0,
@@ -40,7 +41,7 @@ const Question = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-
+    setLoading(true);
     const url = "/api/v1/questions";
 
     if (question.prompt.length == 0) return;
@@ -70,8 +71,12 @@ const Question = () => {
         } else {
           setQuestion(response);
         }
+        setLoading(false);
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        console.log(error.message);
+        setLoading(false);
+      });
   };
 
   const randomPrompt = () => {
@@ -98,7 +103,7 @@ const Question = () => {
       <div className="container py-5">
         <h1 className="display-4">Ask Orwell!</h1>
         <p className="lead text-muted">
-          This is an experiment in using AI to make Animal farm's content more
+          This is an experiment in using AI to make <a href='https://en.wikipedia.org/wiki/Animal_Farm' target='_blank'>Animal farm's</a> content more
           accessible.
           <br />
           To view frequently asked questions{" "}
@@ -107,12 +112,13 @@ const Question = () => {
       </div>
       <div className="container py-5 w-50">
         <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <input
+          <div className="">
+            <textarea
               type="textarea"
               name="prompt"
               id="questionPrompt"
               className="form-control"
+              rows="3"
               value={question.prompt}
               ref={promptBox}
               required
@@ -122,10 +128,20 @@ const Question = () => {
           <div className="form-group mt-3">
             {isAnswered() && `Answer: ${promptAnswer()}`}
           </div>
-          {isAnswered() ? (
+          {loading ? (
+            <>
+              <span
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+            </>
+          ) : isAnswered() ? (
             <button
               className="btn btn-dark mt-3 me-3"
-              onClick={() => changePrompt(question.prompt) && promptBox.current.focus()}
+              onClick={() =>
+                changePrompt(question.prompt) && promptBox.current.focus()
+              }
             >
               Ask another
             </button>
@@ -136,7 +152,7 @@ const Question = () => {
               </button>
               <button
                 type="submit"
-                className="btn btn-secondary mt-3 me-3"
+                className="btn btn-secondary text-dark mt-3 me-3"
                 onClick={() => changePrompt(randomPrompt())}
               >
                 I'm feeling lucky
