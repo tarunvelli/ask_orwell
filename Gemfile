@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.5"
+ruby "3.1.3"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4"
@@ -58,6 +58,10 @@ group :development, :test do
 end
 
 group :development do
+  gem "byebug"
+
+  gem "dotenv-rails"
+
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
@@ -68,3 +72,14 @@ group :development do
   # gem "spring"
 end
 
+# OpenAI client
+gem "ruby-openai"
+
+# dataframes
+gem "rover-df"
+
+gem "numo-narray"
+
+gem "tokenizers"
+
+gem "pdf-reader"
